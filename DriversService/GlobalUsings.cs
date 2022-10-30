@@ -6,3 +6,8 @@ global using System.ComponentModel.DataAnnotations;
 global using DriversService.Models;
 global using Microsoft.EntityFrameworkCore;
 global using DriversService.Data;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Authorization;
+global using DriversService.Models.DTOs.Requests;
+global using DriversService.Configuration;
+global using DriversService.Models.DTOs.Responses;
