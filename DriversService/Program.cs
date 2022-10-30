@@ -7,6 +7,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<DriverContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("MainConnection")
+    )
+);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = AuthOptions.ISSUER,
+            ValidAudience = AuthOptions.AUDIENCE,
+            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        };
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,6 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
