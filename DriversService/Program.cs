@@ -13,22 +13,6 @@ builder.Services.AddDbContext<DriverContext>(options =>
     )
 );
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer(options =>
-//    {
-//        options.RequireHttpsMetadata = false;
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = false,
-//            ValidateAudience = false,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = AuthOptions.ISSUER,
-//            ValidAudience = AuthOptions.AUDIENCE,
-//            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-//        };
-//    });
-
 builder.Services.AddAuthentication(opt => {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
