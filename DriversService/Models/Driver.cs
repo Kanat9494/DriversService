@@ -16,4 +16,7 @@ public class Driver
     public string LicencePlate { get; set; }
     [Required]
     public string BusNumber { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public byte SignedId { get; set; }
 }
