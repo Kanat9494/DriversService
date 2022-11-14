@@ -18,5 +18,5 @@ public class Driver
     public string BusNumber { get; set; }
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-    public byte SignedId { get; set; }
+    public byte SignedIn { get; set; }
 }

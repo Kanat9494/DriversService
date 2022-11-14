@@ -14,27 +14,47 @@ public class DriverController : ControllerBase
         _driverContext = context ?? throw new ArgumentNullException(nameof(context));
     }
 
+    //[AllowAnonymous]
+    //[HttpPost("SignIn")]
+    //public async Task<IActionResult> SignIn([FromBody] DriverSignInRequest driver)
+    //{
+    //    if (ModelState.IsValid)
+    //    {
+    //        var existingDriver = await Authenticate(driver);
+    //        if (existingDriver != null)
+    //        {
+    //            return Ok(existingDriver);
+    //        }
+    //    }
+
+    //    return BadRequest(new DriverSignInResponse
+    //    {
+    //        Errors = new List<string>()
+    //        {
+    //            "Неправильный логин или пароль!",
+    //        }, 
+    //        Success = false
+    //    });
+    //}
+
     [AllowAnonymous]
     [HttpPost("SignIn")]
-    public async Task<IActionResult> SignIn([FromBody] DriverSignInRequest driver)
+    public async Task<DriverResponse?> SignIn([FromBody] DriverSignInRequest driver)
     {
-        if (ModelState.IsValid)
+        var signedInDriver = await _driverContext.Drivers.FirstOrDefaultAsync(s =>
+                s.PhoneNumber == driver.UserName && s.Password == driver.Password);
+        if (ModelState.IsValid && signedInDriver != null)
         {
-            var existingDriver = await Authenticate(driver);
-            if (existingDriver != null)
+
+            return new DriverResponse()
             {
-                return Ok(existingDriver);
-            }
+                DriverId = signedInDriver.DriverId,
+                UserName = signedInDriver.PhoneNumber,
+                BusNumber = signedInDriver.BusNumber
+            };
         }
 
-        return BadRequest(new DriverSignInResponse
-        {
-            Errors = new List<string>()
-            {
-                "Неправильный логин или пароль!",
-            },
-            Success = false
-        });
+        return null;
     }
 
 
