@@ -11,3 +11,6 @@ global using Microsoft.AspNetCore.Authorization;
 global using DriversService.Models.DTOs.Requests;
 global using DriversService.Configuration;
 global using DriversService.Models.DTOs.Responses;
+global using Geolocation;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;

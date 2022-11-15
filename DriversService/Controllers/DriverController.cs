@@ -1,5 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using Microsoft.VisualBasic;
 
 namespace DriversService.Controllers;
 
@@ -55,6 +54,44 @@ public class DriverController : ControllerBase
         }
 
         return null;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("UpdateDriverLocation")]
+    public async Task UpdateDriverLocation([FromBody] DriverLocation driverLocation) 
+    {
+        var updatingDriverLocation = await _driverContext.Drivers.FindAsync(driverLocation.DriverId);
+        if (updatingDriverLocation != null)
+        {
+            updatingDriverLocation.Latitude = driverLocation.Latitude;
+            updatingDriverLocation.Longitude = driverLocation.Longitude;
+
+            //_driverContext.Drivers.Attach(updatingDriverLocation);
+            //var item = _context.TodoItems.Attach(changedItem);
+            //item.State = EntityState.Modified;
+
+            //_context.SaveChanges();
+
+            await _driverContext.SaveChangesAsync();
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("GetDriverLocation")]
+    public async Task<ActionResult<IEnumerable<DriverLocation>>> GetNearestDrivers([FromBody] UserLocation userLocation)
+    {
+        var boundaries = new CoordinateBoundaries(userLocation.Latitude, userLocation.Longitude, 8);
+        double maxLatitude = boundaries.MaxLatitude;
+        double maxLongitude = boundaries.MaxLongitude;
+
+        //var drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1).ToListAsync();
+        List<DriverLocation> drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1)
+            .Where(d => d.Latitude <= maxLatitude && d.Longitude <= maxLongitude).OrderBy(x => x.DriverId)
+            .Select(drivers => new DriverLocation { DriverId = drivers.DriverId, Latitude = drivers.Latitude, Longitude = drivers.Longitude}).ToListAsync();
+        if (drivers == null)
+            return null;
+
+        return drivers;
     }
 
 
