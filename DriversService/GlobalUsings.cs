@@ -14,3 +14,4 @@ global using DriversService.Models.DTOs.Responses;
 global using Geolocation;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Security.Claims;
+global using Geolocation;

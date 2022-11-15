@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic;
-
-namespace DriversService.Controllers;
+﻿namespace DriversService.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -87,7 +85,8 @@ public class DriverController : ControllerBase
         //var drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1).ToListAsync();
         List<DriverLocation> drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1)
             .Where(d => d.Latitude <= maxLatitude && d.Longitude <= maxLongitude).OrderBy(x => x.DriverId)
-            .Select(drivers => new DriverLocation { DriverId = drivers.DriverId, Latitude = drivers.Latitude, Longitude = drivers.Longitude}).ToListAsync();
+            .Select(drivers => new DriverLocation { DriverId = drivers.DriverId, Latitude = drivers.Latitude, Longitude = drivers.Longitude})
+            .ToListAsync();
         if (drivers == null)
             return null;
 
