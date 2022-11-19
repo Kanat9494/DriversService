@@ -83,9 +83,14 @@ public class DriverController : ControllerBase
         double maxLongitude = boundaries.MaxLongitude;
 
         //var drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1).ToListAsync();
-        List<DriverLocation> drivers = await _driverContext.Drivers.Where(d => d.BusNumber == userLocation.BusNumber && d.SignedIn == 1)
-            .Where(d => d.Latitude <= maxLatitude && d.Longitude <= maxLongitude).OrderBy(x => x.DriverId)
-            .Select(drivers => new DriverLocation { DriverId = drivers.DriverId, Latitude = drivers.Latitude, Longitude = drivers.Longitude})
+        List<DriverLocation> drivers = await _driverContext.Drivers.Where(d => 
+            d.BusNumber == userLocation.BusNumber && d.SignedIn == 1)
+            .Where(d => d.Latitude <= maxLatitude && d.Longitude <= maxLongitude).OrderBy(x => 
+            x.DriverId)
+            .Select(drivers => new DriverLocation 
+            { 
+                DriverId = drivers.DriverId, Latitude = drivers.Latitude, Longitude = drivers.Longitude
+            })
             .ToListAsync();
         if (drivers == null)
             return null;
