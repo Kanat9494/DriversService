@@ -42,7 +42,8 @@ public class DriverController : ControllerBase
                 s.PhoneNumber == driver.UserName && s.Password == driver.Password);
         if (ModelState.IsValid && signedInDriver != null)
         {
-
+            signedInDriver.SignedIn = 1;
+            await _driverContext.SaveChangesAsync();
             return new DriverResponse()
             {
                 DriverId = signedInDriver.DriverId,
@@ -155,7 +156,7 @@ public class DriverController : ControllerBase
         {
             new Claim("Id", driver.DriverId.ToString()),
             new Claim("PhoneNumber", driver.PhoneNumber),
-            new Claim("Itn", driver.Itn),
+            new Claim("ITIN", driver.ITIN),
             new Claim("BusNumber", driver.BusNumber)
         };
 

@@ -9,7 +9,7 @@ public class Driver
     [Required]
     public string FullName { get; set; }
     [Required]
-    public string Itn { get; set; }
+    public string ITIN { get; set; }
     [Required]
     public string Password { get; set; }
     [Required]
