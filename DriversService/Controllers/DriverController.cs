@@ -76,8 +76,8 @@ public class DriverController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("GetDriverLocation")]
-    public async Task<ActionResult<IEnumerable<DriverLocation>>> GetNearestDrivers([FromBody] UserLocation userLocation)
+    [HttpPost("GetNearByDrivers")]
+    public async Task<ActionResult<IEnumerable<DriverLocation>>> GetNearByDrivers([FromBody] UserLocation userLocation)
     {
         var boundaries = new CoordinateBoundaries(userLocation.Latitude, userLocation.Longitude, 8);
         double maxLatitude = boundaries.MaxLatitude;
